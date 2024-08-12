@@ -1,0 +1,20 @@
+{
+  "name": "nposu",
+  "author": {
+    "name": "aeongdesu"
+  },
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "auth": "bun run src/authServer.ts"
+  },
+  "dependencies": {
+    "@twurple/api": "^7.1.0",
+    "@twurple/auth": "^7.1.0",
+    "@twurple/chat": "^7.1.0",
+    "osu-api-v2-js": "^1.0.5"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.6"
+  }
+}
