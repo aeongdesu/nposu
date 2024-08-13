@@ -21,7 +21,12 @@ class Database {
         this.db.query("INSERT OR REPLACE INTO tokens (platform, token) VALUES (?, ?)").get(platform, JSON.stringify(token))
     }
     get_user(twitch_id: string) {
-        return this.db.query("SELECT osu_id FROM users WHERE twitch_id = ?").get(twitch_id) as { osu_id?: number }
+        return this.db.query("SELECT * FROM users WHERE twitch_id = ?").get(twitch_id) as {
+            osu_id: number,
+            twitch_id: number,
+            mapinfo_enabled: number,
+            is_live: number
+        }
     }
     get_users() {
         return this.db.query("SELECT * FROM users").all() as { osu_id: number, twitch_id: number, mapinfo_enabled: number, is_live: number }[]
@@ -42,6 +47,10 @@ class Database {
             }
         })
         batch(users)
+    }
+    // wip 
+    update_user(twitch_id: string, { mapinfo_enabled }: { mapinfo_enabled: boolean }) {
+        this.db.query("UPDATE users SET mapinfo_enabled = ? WHERE twitch_id = ?").run(+mapinfo_enabled, twitch_id)
     }
 }
 

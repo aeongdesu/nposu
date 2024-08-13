@@ -21,7 +21,7 @@ export default async (channel: string, user: string, ctx: string, msg: ChatMessa
             if (result.ownerOnly && msg.userInfo.userId !== process.env["OWNER_TWITCH_ID"]) return
             const user_cooldown = cooldown_check(cooldowns, user, channel)
             if (user_cooldown) return
-            result = await result.execute(command)
+            result = await result.execute(command, msg.channelId)
             if (!result) return
             twitch.chat.say(channel, result, { replyTo: msg })
         }
@@ -29,8 +29,8 @@ export default async (channel: string, user: string, ctx: string, msg: ChatMessa
 
     if (msg.userInfo.isBroadcaster) return
 
-    const osuid = database.get_user(msg.channelId!)?.osu_id
-    if (!osuid) return
+    const db_user = database.get_user(msg.channelId!)
+    if (!db_user) return
 
     const get_map = mapreq_check(ctx)
     if (!get_map) return
@@ -45,10 +45,10 @@ export default async (channel: string, user: string, ctx: string, msg: ChatMessa
     if (last_beatmap_cooldown) return
 
     try {
-        await osuapi.sendChatPrivateMessage(osuid, `@${user} -> ` + prepare_osu_message(result))
+        await osuapi.sendChatPrivateMessage(db_user.osu_id, `@${user} -> ` + prepare_osu_message(result))
     } catch (err) {
         console.error(err)
         return await twitch.chat.say(channel, `Failed to send beatmap to osu!`, { replyTo: msg })
     }
-    await twitch.chat.say(channel, `${result.beatmapset_info.artist} - ${result.beatmapset_info.title} [${result.beatmap_info.version}] sent.`, { replyTo: msg })
+    if (db_user.mapinfo_enabled) await twitch.chat.say(channel, `${result.beatmapset_info.artist} - ${result.beatmapset_info.title} [${result.beatmap_info.version}] sent.`, { replyTo: msg })
 }

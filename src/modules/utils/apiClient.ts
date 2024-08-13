@@ -7,7 +7,7 @@ import { authProvider } from "./auth"
 const osutoken = database.get_token("osu")
 export const osuapi = new osu.API({
     client: {
-        id: Number(process.env["OSU_CLIENT_ID"]),
+        id: +process.env["OSU_CLIENT_ID"]!,
         secret: process.env["OSU_CLIENT_SECRET"]!
     },
     access_token: osutoken.access_token,
