@@ -9,12 +9,12 @@
     "auth": "bun run src/authServer.ts"
   },
   "dependencies": {
-    "@twurple/api": "^7.1.0",
-    "@twurple/auth": "^7.1.0",
-    "@twurple/chat": "^7.1.0",
-    "osu-api-v2-js": "^1.0.5"
+    "@twurple/api": "^7.2.1",
+    "@twurple/auth": "^7.2.1",
+    "@twurple/chat": "^7.2.1",
+    "osu-api-v2-js": "^1.1.0"
   },
   "devDependencies": {
-    "@types/bun": "^1.1.6"
+    "@types/bun": "^1.1.14"
   }
 }

@@ -29,7 +29,7 @@ const server = Bun.serve({
             }
         } else { // osu
             try {
-                const tokenData = await osu.API.createAsync({ id: Number(process.env["OSU_CLIENT_ID"]!), secret: process.env["OSU_CLIENT_SECRET"]! }, { redirect_uri: "http://localhost:3000", code })
+                const tokenData = await osu.API.createAsync(Number(process.env["OSU_CLIENT_ID"]!), process.env["OSU_CLIENT_SECRET"]!, { redirect_uri: "http://localhost:3000", code })
                 database.set_token("osu", {
                     access_token: tokenData.access_token,
                     expires: tokenData.expires,
